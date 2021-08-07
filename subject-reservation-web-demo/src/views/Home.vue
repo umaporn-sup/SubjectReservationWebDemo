@@ -2,16 +2,24 @@
   <div class="home">
     <br />
     <p style="font-family: Roboto; font-size: 18pt">
-      SIT Subject Reservation Web
+      SIT Subject Reservation Web by Umaporn (On feature/list-subject branch)
     </p>
     <br />
     <v-row justify="center" align="top" no-gutters style="height: 150px">
-      <v-col v-for="subject in subjectList" :key="subject.subjectId" cols="3" class="pa-2">
-        <subject :subject="subject" @fetchSubjects="getSubjectList()" @subjectIsMax="errorSubjectIsMax()" />
+      <v-col
+        v-for="subject in subjectList"
+        :key="subject.subjectId"
+        cols="3"
+        class="pa-2"
+      >
+        <subject
+          :subject="subject"
+          @fetchSubjects="getSubjectList()"
+          @subjectIsMax="errorSubjectIsMax()"
+        />
       </v-col>
     </v-row>
     <v-dialog v-model="isError" width="500">
-
       <v-card>
         <v-card-title class="text-h5 grey lighten-2">
           Notification from Ajarn
@@ -22,51 +30,52 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="isError = false"> ยอมรับน้ำตาไหล </v-btn>
+          <v-btn color="primary" text @click="isError = false">
+            ยอมรับน้ำตาไหล
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
 </template>
 
-
 <script>
-import Subject from "../components/Subject";
-import { fetchSubjectList } from "../service/subject";
+import Subject from '../components/Subject'
+import { fetchSubjectList } from '../service/subject'
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
-    Subject,
+    Subject
   },
   data: () => ({
-    alignments: ["start", "center", "end"],
+    alignments: ['start', 'center', 'end'],
     subjectList: [
       {
-        subjectId: "int101",
+        subjectId: 'int101',
         quota: 30,
         currentStudentNumber: 0,
-        subjectName: "Introduction to Java 1",
-      },
+        subjectName: 'Introduction to Java 1'
+      }
     ],
-    isError: false,
+    isError: false
   }),
   mounted() {
-    this.getSubjectList();
+    this.getSubjectList()
   },
   methods: {
-    getSubjectList: async function () {
+    getSubjectList: async function() {
       try {
-        this.subjectList = await fetchSubjectList();
-        this.subjectList.forEach(subject => {
+        this.subjectList = await fetchSubjectList()
+        this.subjectList.forEach((subject) => {
           subject.image = 'https://quarkus.io/assets/images/quarkus_card.png'
-        });
+        })
       } catch (error) {
-        console.log(error.message);
+        console.log(error.message)
       }
     },
-    errorSubjectIsMax: function(){
-        this.isError = true;
+    errorSubjectIsMax: function() {
+      this.isError = true
     }
-  },
-};
+  }
+}
 </script>
